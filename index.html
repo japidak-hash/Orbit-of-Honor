@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة الإحصائيات وقاعة الشرف - أكاديمية الفنون</title>
+    <title>Orbit of Honor - أكاديمية الفنون</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        @import url('https://script.google.com/macros/s/AKfycbwcQGeY04LcufU4dcjhhSPdRcCiNXNi6m0bOdPNV_zyELpoL5LI17vAtzOtekVeZFtEpg/exec.');
 
         :root {
             --bg-color: #0a0705; 
@@ -15,219 +15,51 @@
             --border-color: rgba(242, 197, 114, 0.15);
             --card-bg: rgba(15, 11, 8, 0.75);
             --nebula-glow: rgba(242, 197, 114, 0.08);
+            --input-bg: rgba(255, 255, 255, 0.05);
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Tajawal', sans-serif; 
-            transition: all 0.3s ease;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; transition: all 0.3s ease; }
 
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-color); 
-            min-height: 100vh; 
-            padding: 40px 20px; 
-            position: relative; 
-            overflow-x: hidden;
-        }
+        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; padding: 40px 20px; position: relative; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; top: 50%; left: 50%; width: 800px; height: 800px; background: radial-gradient(circle, var(--nebula-glow) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; pointer-events: none; }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -2; background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat; opacity: 0.5; }
 
-        /* تأثير الخلفية الفضائية المنسجم مع الهوية البصرية */
-        body::before { 
-            content: ''; 
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
-            width: 800px; 
-            height: 800px; 
-            background: radial-gradient(circle, var(--nebula-glow) 0%, transparent 70%); 
-            transform: translate(-50%, -50%); 
-            z-index: -1; 
-            pointer-events: none; 
-        }
+        .dashboard-container { max-width: 950px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 45px; }
+        .header h1 { color: var(--accent-gold); font-size: 2.6rem; font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 25px rgba(242, 197, 114, 0.25); margin-bottom: 10px; }
+        .header p { color: var(--accent-sand); font-size: 1.1rem; opacity: 0.8; }
 
-        .stars { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            pointer-events: none; 
-            z-index: -2; 
-            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat; 
-            opacity: 0.5; 
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px 20px; text-align: center; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .stat-card h3 { color: var(--accent-sand); font-size: 1.1rem; margin-bottom: 15px; font-weight: 500; }
+        .stat-card .number { font-size: 3rem; font-weight: 900; color: var(--accent-gold); text-shadow: 0 0 15px rgba(242, 197, 114, 0.2); }
 
-        .dashboard-container { 
-            max-width: 950px; 
-            margin: 0 auto; 
-        }
+        /* أدوات التحكم (البحث وتغيير اللقب) */
+        .controls-section { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 40px; }
+        .control-box { flex: 1; min-width: 300px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; backdrop-filter: blur(15px); }
+        .control-box h3 { color: var(--accent-gold); margin-bottom: 15px; font-size: 1.2rem; }
         
-        .header { 
-            text-align: center; 
-            margin-bottom: 45px; 
-        }
+        input { width: 100%; padding: 12px 15px; margin-bottom: 10px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; color: #fff; font-size: 1rem; outline: none; }
+        input:focus { border-color: var(--accent-gold); background: rgba(242, 197, 114, 0.05); }
         
-        .header h1 { 
-            color: var(--accent-gold); 
-            font-size: 2.6rem; 
-            font-weight: 900; 
-            letter-spacing: 1px;
-            text-shadow: 0 0 25px rgba(242, 197, 114, 0.25); 
-            margin-bottom: 10px;
-        }
+        button { width: 100%; padding: 12px; background: var(--accent-gold); color: var(--bg-color); border: none; border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer; }
+        button:hover { background: #ffd992; box-shadow: 0 0 15px rgba(242, 197, 114, 0.4); }
+        button:disabled { background: #555; cursor: not-allowed; }
 
-        .header p {
-            color: var(--accent-sand);
-            font-size: 1.1rem;
-            opacity: 0.8;
-        }
+        #updateMessage { font-size: 0.9rem; margin-top: 10px; text-align: center; display: block; }
 
-        /* بطاقات الإحصائيات الكلية */
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-            gap: 25px; 
-            margin-bottom: 50px; 
-        }
-        
-        .stat-card { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border-color); 
-            border-radius: 20px; 
-            padding: 30px 20px; 
-            text-align: center; 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        
-        .stat-card h3 { 
-            color: var(--accent-sand); 
-            font-size: 1.1rem; 
-            margin-bottom: 15px; 
-            font-weight: 500;
-        }
-        
-        .stat-card .number { 
-            font-size: 3rem; 
-            font-weight: 900; 
-            color: var(--accent-gold);
-            text-shadow: 0 0 15px rgba(242, 197, 114, 0.2);
-        }
+        .section-title { color: var(--accent-gold); font-size: 1.8rem; font-weight: 700; margin-bottom: 25px; border-right: 4px solid var(--accent-gold); padding-right: 15px; display: block; }
+        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; overflow-x: auto; backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.4); margin-bottom: 50px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 18px 24px; text-align: right; border-bottom: 1px solid rgba(242, 197, 114, 0.08); }
+        th { background: rgba(242, 197, 114, 0.04); color: var(--accent-gold); font-weight: 700; font-size: 0.95rem; }
+        td { font-size: 1rem; color: #fff; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.015); color: var(--accent-gold); }
+        .loading { text-align: center; padding: 50px; font-size: 1.2rem; color: var(--accent-sand); }
+        .badge-display { font-size: 1.2rem; letter-spacing: 2px; }
+        .works-count { font-weight: 700; color: var(--accent-sand); }
 
-        /* قسم الجداول وقاعة الشرف */
-        .section-title { 
-            color: var(--accent-gold); 
-            font-size: 1.8rem; 
-            font-weight: 700;
-            margin-bottom: 25px; 
-            border-right: 4px solid var(--accent-gold); 
-            padding-right: 15px; 
-            display: block; 
-        }
-        
-        .table-container { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border-color); 
-            border-radius: 20px; 
-            overflow-x: auto; 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            margin-bottom: 50px; 
-        }
-        
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            min-width: 600px;
-        }
-        
-        th, td { 
-            padding: 18px 24px; 
-            text-align: right; 
-            border-bottom: 1px solid rgba(242, 197, 114, 0.08); 
-        }
-        
-        th { 
-            background: rgba(242, 197, 114, 0.04); 
-            color: var(--accent-gold); 
-            font-weight: 700; 
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-        }
-        
-        td {
-            font-size: 1rem;
-            color: #fff;
-        }
-
-        tr:last-child td { 
-            border-bottom: none; 
-        }
-        
-        tr:hover td { 
-            background: rgba(255,255,255,0.015); 
-            color: var(--accent-gold);
-        }
-
-        .loading { 
-            text-align: center; 
-            padding: 50px; 
-            font-size: 1.2rem; 
-            color: var(--accent-sand); 
-        }
-
-        /* تصاميم خاصة داخل الجدول للجمالية */
-        .badge-display {
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-        }
-
-        .works-count {
-            font-weight: 700;
-            color: var(--accent-sand);
-        }
-
-        /* دستور وقوانين الأكاديمية */
-        .rules-container { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border-color); 
-            border-radius: 20px; 
-            padding: 35px; 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        }
-        
-        .rules-list { 
-            list-style-type: none; 
-        }
-        
-        .rules-list li { 
-            margin-bottom: 20px; 
-            padding-right: 30px; 
-            position: relative; 
-            line-height: 1.7; 
-            font-size: 1.05rem;
-            color: #fcf6eb;
-        }
-        
-        .rules-list li:last-child {
-            margin-bottom: 0;
-        }
-
-        .rules-list li::before { 
-            content: '✦'; 
-            color: var(--accent-gold); 
-            position: absolute; 
-            right: 0; 
-            top: 0; 
-            font-size: 1.1rem;
-        }
     </style>
 </head>
 <body>
@@ -235,8 +67,8 @@
 
     <div class="dashboard-container">
         <div class="header">
-            <h1>قاعة الشرف والأوسمة 🌌</h1>
-            <p>مجتمع الإبداع الفني اللامتناهي</p>
+            <h1>Orbit of Honor 🌌</h1>
+            <p>بلاط المجد وميثاق النخبة للأكاديمية</p>
         </div>
 
         <div class="stats-grid">
@@ -250,40 +82,42 @@
             </div>
         </div>
 
+        <div class="controls-section">
+            <div class="control-box">
+                <h3>🔍 البحث في السجل</h3>
+                <input type="text" id="searchInput" placeholder="اكتب اللقب للبحث..." onkeyup="filterTable()">
+            </div>
+
+            <div class="control-box">
+                <h3>⚙️ تغيير اللقب الخاص بك</h3>
+                <input type="text" id="idInput" placeholder="أدخل رقم الهوية السري...">
+                <input type="text" id="newNicknameInput" placeholder="اللقب الجديد الذي تريده...">
+                <button id="updateBtn" onclick="updateNickname()">تأكيد وتحديث اللقب</button>
+                <span id="updateMessage"></span>
+            </div>
+        </div>
+
         <h2 class="section-title">سجل المبدعين والأوسمة</h2>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>الاسم الكامل</th>
+                        <th>اللقب</th>
                         <th>التخصص الفني</th>
                         <th>عدد الأعمال</th>
                         <th>أوسمة الشرف</th>
                     </tr>
                 </thead>
                 <tbody id="membersTableBody">
-                    <tr>
-                        <td colspan="4" class="loading">جاري استدعاء السجلات من السحابة التخزينية... ⏳</td>
-                    </tr>
+                    <tr><td colspan="4" class="loading">جاري استدعاء السجلات من السحابة التخزينية... ⏳</td></tr>
                 </tbody>
             </table>
-        </div>
-
-        <h2 class="section-title">قوانين وميثاق الأكاديمية</h2>
-        <div class="rules-container">
-            <ul class="rules-list">
-                <li>الاحترام المتبادل بين جميع المبدعين والأعضاء هو الركيزة الأساسية لهذا المجتمع.</li>
-                <li>يتم احتساب الأعمال الفنية وإضافتها للوحة الشرف بعد مراجعتها وتوثيقها من قبل الإدارة.</li>
-                <li>تُمنح أوسمة الشرف التقديرية بناءً على جودة ونشاط العضو وتميزه في تخصصه الفني.</li>
-                <li>يمنع منعاً باتاً تقديم أو نسب أي عمل فني ليس من صنعك أو إبداعك الشخصي.</li>
-                <li>التفاعل البنّاء ونقد الأعمال بشكل محترف وراقي يساهم في ترقيتك المستمرة داخل الأكاديمية.</li>
-            </ul>
         </div>
     </div>
 
     <script>
-        // الرابط الخاص بك المربوط بقاعدة البيانات مباشرة
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyFD3w7nGjFi3JM1gcMVvGmDsjEaUJ29D13a8OCtQaQ_R5Xtre4EvP5fTcUY9_9tbUjmg/exec';
+        let globalMembersData = []; // متغير لتخزين البيانات للبحث
 
         async function fetchDashboardData() {
             try {
@@ -291,40 +125,100 @@
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    // حقن الإحصائيات الكلية في الواجهة
                     document.getElementById('totalMembers').innerText = data.stats.totalMembers;
                     document.getElementById('totalWorks').innerText = data.stats.totalWorks;
-
-                    const tbody = document.getElementById('membersTableBody');
-                    tbody.innerHTML = ''; // إزالة جملة التحميل
-
-                    // بناء صفوف الأعضاء ديناميكياً
-                    data.members.forEach(member => {
-                        const tr = document.createElement('tr');
-                        
-                        // معالجة الأوسمة لتظهر بشكل منسق وإذا كانت فارغة يوضع رمز افتراضي
-                        const badges = member['أوسمة الشرف'] ? `<span class="badge-display">${member['أوسمة الشرف']}</span>` : '—';
-                        const works = member['عدد الأعمال'] !== undefined ? member['عدد الأعمال'] : 0;
-
-                        tr.innerHTML = `
-                            <td><strong>${member['الاسم الكامل'] || 'عضو غير مسمى'}</strong></td>
-                            <td>${member['التخصصات'] || 'لم يحدد'}</td>
-                            <td class="works-count">${works}</td>
-                            <td>${badges}</td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-                } else {
-                    throw new Error(data.message || "Unknown error");
+                    globalMembersData = data.members; // حفظ البيانات للمسح
+                    renderTable(globalMembersData);
                 }
             } catch (error) {
                 document.getElementById('membersTableBody').innerHTML = 
-                    `<tr><td colspan="4" style="text-align:center; color:#ff6b6b; padding: 30px;">حدث خطأ أثناء الاتصال بقاعدة البيانات. تأكد من إعدادات النشر والنصوص.</td></tr>`;
-                console.error("Error fetching data:", error);
+                    `<tr><td colspan="4" style="text-align:center; color:#ff6b6b; padding: 30px;">حدث خطأ في جلب البيانات.</td></tr>`;
             }
         }
 
-        // تشغيل برمجية جلب البيانات تلقائياً بمجرد اكتمال بناء الصفحة
+        // دالة عرض الجدول
+        function renderTable(members) {
+            const tbody = document.getElementById('membersTableBody');
+            tbody.innerHTML = ''; 
+
+            if(members.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">لم يتم العثور على ألقاب مطابقة للبحث.</td></tr>`;
+                return;
+            }
+
+            members.forEach(member => {
+                const tr = document.createElement('tr');
+                const badges = member['أوسمة الشرف'] ? `<span class="badge-display">${member['أوسمة الشرف']}</span>` : '—';
+                const works = member['عدد الأعمال'] !== undefined ? member['عدد الأعمال'] : 0;
+
+                tr.innerHTML = `
+                    <td><strong>${member['اللقب'] || 'غير محدد'}</strong></td>
+                    <td>${member['التخصصات'] || 'لم يحدد'}</td>
+                    <td class="works-count">${works}</td>
+                    <td>${badges}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // دالة الفلترة (البحث الحي)
+        function filterTable() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredData = globalMembersData.filter(member => {
+                return (member['اللقب'] && member['اللقب'].toLowerCase().includes(query));
+            });
+            renderTable(filteredData);
+        }
+
+        // دالة تحديث اللقب
+        async function updateNickname() {
+            const id = document.getElementById('idInput').value.trim();
+            const newNickname = document.getElementById('newNicknameInput').value.trim();
+            const msgBox = document.getElementById('updateMessage');
+            const btn = document.getElementById('updateBtn');
+
+            if (!id || !newNickname) {
+                msgBox.style.color = "#ff6b6b";
+                msgBox.innerText = "يرجى تعبئة رقم الهوية واللقب الجديد.";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "جاري التحديث... ⏳";
+            msgBox.innerText = "";
+
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: "update_nickname",
+                        id: id,
+                        newNickname: newNickname
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    msgBox.style.color = "#4cd137";
+                    msgBox.innerText = result.message;
+                    // تحديث الجدول ليعرض اللقب الجديد مباشرة
+                    fetchDashboardData(); 
+                    document.getElementById('idInput').value = '';
+                    document.getElementById('newNicknameInput').value = '';
+                } else {
+                    msgBox.style.color = "#ff6b6b";
+                    msgBox.innerText = result.message;
+                }
+            } catch (error) {
+                msgBox.style.color = "#ff6b6b";
+                msgBox.innerText = "فشل الاتصال بالخادم. حاول مجدداً.";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "تأكيد وتحديث اللقب";
+            }
+        }
+
         window.onload = fetchDashboardData;
     </script>
 </body>

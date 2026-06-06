@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإحصائيات وقاعة الشرف - أكاديمية الفنون</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+
+        :root {
+            --bg-color: #0a0705; 
+            --text-color: #fcf6eb; 
+            --accent-gold: #F2C572; 
+            --accent-sand: #D9B48F;
+            --border-color: rgba(242, 197, 114, 0.15);
+            --card-bg: rgba(15, 11, 8, 0.75);
+            --nebula-glow: rgba(242, 197, 114, 0.08);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Tajawal', sans-serif; 
+            transition: all 0.3s ease;
+        }
+
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            min-height: 100vh; 
+            padding: 40px 20px; 
+            position: relative; 
+            overflow-x: hidden;
+        }
+
+        /* تأثير الخلفية الفضائية المنسجم مع الهوية البصرية */
+        body::before { 
+            content: ''; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            width: 800px; 
+            height: 800px; 
+            background: radial-gradient(circle, var(--nebula-glow) 0%, transparent 70%); 
+            transform: translate(-50%, -50%); 
+            z-index: -1; 
+            pointer-events: none; 
+        }
+
+        .stars { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: -2; 
+            background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat; 
+            opacity: 0.5; 
+        }
+
+        .dashboard-container { 
+            max-width: 950px; 
+            margin: 0 auto; 
+        }
+        
+        .header { 
+            text-align: center; 
+            margin-bottom: 45px; 
+        }
+        
+        .header h1 { 
+            color: var(--accent-gold); 
+            font-size: 2.6rem; 
+            font-weight: 900; 
+            letter-spacing: 1px;
+            text-shadow: 0 0 25px rgba(242, 197, 114, 0.25); 
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--accent-sand);
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* بطاقات الإحصائيات الكلية */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+            gap: 25px; 
+            margin-bottom: 50px; 
+        }
+        
+        .stat-card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            padding: 30px 20px; 
+            text-align: center; 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .stat-card h3 { 
+            color: var(--accent-sand); 
+            font-size: 1.1rem; 
+            margin-bottom: 15px; 
+            font-weight: 500;
+        }
+        
+        .stat-card .number { 
+            font-size: 3rem; 
+            font-weight: 900; 
+            color: var(--accent-gold);
+            text-shadow: 0 0 15px rgba(242, 197, 114, 0.2);
+        }
+
+        /* قسم الجداول وقاعة الشرف */
+        .section-title { 
+            color: var(--accent-gold); 
+            font-size: 1.8rem; 
+            font-weight: 700;
+            margin-bottom: 25px; 
+            border-right: 4px solid var(--accent-gold); 
+            padding-right: 15px; 
+            display: block; 
+        }
+        
+        .table-container { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            overflow-x: auto; 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            margin-bottom: 50px; 
+        }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 600px;
+        }
+        
+        th, td { 
+            padding: 18px 24px; 
+            text-align: right; 
+            border-bottom: 1px solid rgba(242, 197, 114, 0.08); 
+        }
+        
+        th { 
+            background: rgba(242, 197, 114, 0.04); 
+            color: var(--accent-gold); 
+            font-weight: 700; 
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        tr:last-child td { 
+            border-bottom: none; 
+        }
+        
+        tr:hover td { 
+            background: rgba(255,255,255,0.015); 
+            color: var(--accent-gold);
+        }
+
+        .loading { 
+            text-align: center; 
+            padding: 50px; 
+            font-size: 1.2rem; 
+            color: var(--accent-sand); 
+        }
+
+        /* تصاميم خاصة داخل الجدول للجمالية */
+        .badge-display {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .works-count {
+            font-weight: 700;
+            color: var(--accent-sand);
+        }
+
+        /* دستور وقوانين الأكاديمية */
+        .rules-container { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            padding: 35px; 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+        
+        .rules-list { 
+            list-style-type: none; 
+        }
+        
+        .rules-list li { 
+            margin-bottom: 20px; 
+            padding-right: 30px; 
+            position: relative; 
+            line-height: 1.7; 
+            font-size: 1.05rem;
+            color: #fcf6eb;
+        }
+        
+        .rules-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .rules-list li::before { 
+            content: '✦'; 
+            color: var(--accent-gold); 
+            position: absolute; 
+            right: 0; 
+            top: 0; 
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>قاعة الشرف والأوسمة 🌌</h1>
+            <p>مجتمع الإبداع الفني اللامتناهي</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>إجمالي المبدعين المسجلين</h3>
+                <div class="number" id="totalMembers">--</div>
+            </div>
+            <div class="stat-card">
+                <h3>الأعمال الفنية المقدمة</h3>
+                <div class="number" id="totalWorks">--</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">سجل المبدعين والأوسمة</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>الاسم الكامل</th>
+                        <th>التخصص الفني</th>
+                        <th>عدد الأعمال</th>
+                        <th>أوسمة الشرف</th>
+                    </tr>
+                </thead>
+                <tbody id="membersTableBody">
+                    <tr>
+                        <td colspan="4" class="loading">جاري استدعاء السجلات من السحابة التخزينية... ⏳</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="section-title">قوانين وميثاق الأكاديمية</h2>
+        <div class="rules-container">
+            <ul class="rules-list">
+                <li>الاحترام المتبادل بين جميع المبدعين والأعضاء هو الركيزة الأساسية لهذا المجتمع.</li>
+                <li>يتم احتساب الأعمال الفنية وإضافتها للوحة الشرف بعد مراجعتها وتوثيقها من قبل الإدارة.</li>
+                <li>تُمنح أوسمة الشرف التقديرية بناءً على جودة ونشاط العضو وتميزه في تخصصه الفني.</li>
+                <li>يمنع منعاً باتاً تقديم أو نسب أي عمل فني ليس من صنعك أو إبداعك الشخصي.</li>
+                <li>التفاعل البنّاء ونقد الأعمال بشكل محترف وراقي يساهم في ترقيتك المستمرة داخل الأكاديمية.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // الرابط الخاص بك المربوط بقاعدة البيانات مباشرة
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyFD3w7nGjFi3JM1gcMVvGmDsjEaUJ29D13a8OCtQaQ_R5Xtre4EvP5fTcUY9_9tbUjmg/exec';
+
+        async function fetchDashboardData() {
+            try {
+                const response = await fetch(WEB_APP_URL);
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // حقن الإحصائيات الكلية في الواجهة
+                    document.getElementById('totalMembers').innerText = data.stats.totalMembers;
+                    document.getElementById('totalWorks').innerText = data.stats.totalWorks;
+
+                    const tbody = document.getElementById('membersTableBody');
+                    tbody.innerHTML = ''; // إزالة جملة التحميل
+
+                    // بناء صفوف الأعضاء ديناميكياً
+                    data.members.forEach(member => {
+                        const tr = document.createElement('tr');
+                        
+                        // معالجة الأوسمة لتظهر بشكل منسق وإذا كانت فارغة يوضع رمز افتراضي
+                        const badges = member['أوسمة الشرف'] ? `<span class="badge-display">${member['أوسمة الشرف']}</span>` : '—';
+                        const works = member['عدد الأعمال'] !== undefined ? member['عدد الأعمال'] : 0;
+
+                        tr.innerHTML = `
+                            <td><strong>${member['الاسم الكامل'] || 'عضو غير مسمى'}</strong></td>
+                            <td>${member['التخصصات'] || 'لم يحدد'}</td>
+                            <td class="works-count">${works}</td>
+                            <td>${badges}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    throw new Error(data.message || "Unknown error");
+                }
+            } catch (error) {
+                document.getElementById('membersTableBody').innerHTML = 
+                    `<tr><td colspan="4" style="text-align:center; color:#ff6b6b; padding: 30px;">حدث خطأ أثناء الاتصال بقاعدة البيانات. تأكد من إعدادات النشر والنصوص.</td></tr>`;
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        // تشغيل برمجية جلب البيانات تلقائياً بمجرد اكتمال بناء الصفحة
+        window.onload = fetchDashboardData;
+    </script>
+</body>
+</html>
